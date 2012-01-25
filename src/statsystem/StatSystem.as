@@ -1,14 +1,19 @@
 package statsystem 
 {
 	import flash.utils.Dictionary;
+	import statsystem.stats.*;
+	
 	/**
-	 * ...
+	 * Holds a collection of stats.
 	 * @author Alex Larioza
 	 */
 	public class StatSystem 
 	{
 		private var stats:Dictionary;
 		
+		/**
+		 * Holds a collection of stats.
+		 */
 		public function StatSystem() 
 		{
 			stats = new Dictionary();

@@ -6,9 +6,8 @@ package
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.World;
 	import flash.utils.getTimer;
-	import statsystem.Modifier;
-	import statsystem.Stat;
-	import statsystem.StatSystem;
+	import statsystem.*;
+	import statsystem.stats.*;
 
 	/**
 	 * ...
@@ -22,10 +21,12 @@ package
 		{
 			myStats = new StatSystem();
 			
-			myStats.addStat(new Stat("health", 80, 100));
-			myStats.addStat(new Stat("mana", 20, 20));
-			myStats.addStat(new Stat("strength", 5));
-			myStats.addStat(new Stat("speed", 10));
+			myStats.addStat(new MeterStat("health", 80, 100, 10));
+			myStats.addStat(new MeterStat("mana", 20, 20, 5));
+			var levelExp:Vector.<Number> = Vector.<Number>([10, 25, 50, 100, 200, 300, 600, 1200]);
+			myStats.addStat(new LevelStat("level", 1, 100, 1, levelExp));
+			myStats.addStat(new LevelStat("strength", 5));
+			myStats.addStat(new LevelStat("speed", 10));
 		}
 		
 		override public function begin():void
@@ -53,9 +54,9 @@ package
 						trace(">Total Modifier: " + stat.modifierValue);
 					}
 					if (stat.maxValue == -1) {
-						trace("Total Value: " + stat.totalValue);
+						trace("Total Value: " + (stat.baseValue + stat.modifierValue));
 					} else {
-						trace("Max Value: " + stat.totalValue);
+						trace("Total (max) Value: " + (stat.maxValue + stat.modifierValue));
 					}
 				}
 			}
@@ -68,6 +69,18 @@ package
 				myStats.getStat("mana").removeModifier("Ring of Mana");
 				myStats.getStat("health").removeModifier("Curse of Dredmor");
 				myStats.getStat("strength").removeModifier("Gloves of Strength");
+			}
+			var s:Stat = myStats.getStat("level");
+			if (Input.pressed(Key.NUMPAD_4)) {
+				trace("\nLevel " + s.level + " | " + s.exp + "/" + s.requiredExp);
+			}
+			if (Input.pressed(Key.NUMPAD_5)) {
+				myStats.getStat("level").addExp(10);
+				trace("Added 10exp - level " + s.level + " | " + s.exp + "/" + s.requiredExp);
+			}
+			if (Input.pressed(Key.NUMPAD_6)) {
+				myStats.getStat("level").removeExp(10);
+				trace("Removed 10exp - level " + s.level + " | " + s.exp + "/" + s.requiredExp);
 			}
 		}
 		
