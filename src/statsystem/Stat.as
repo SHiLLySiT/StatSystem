@@ -2,36 +2,51 @@ package statsystem
 {
 	import flash.utils.Dictionary;
 	/**
-	 * ...
+	 * The base class for stat classes.
 	 * @author Alex Larioza
 	 */
 	public class Stat 
 	{
+		public static const VALUE:int = 0;
+		public static const MAXVALUE:int = 1;
+		
 		private var modifiers:Dictionary;
 		private var _name:String;
 		private var _value:Number;
 		private var _maxValue:Number;
+		private var _onFull:Function;
+		private var _onEmpty:Function;
 		
-		public function Stat(name:String, startingValue:Number, maxValue:Number = -1) 
+		/**
+		 * 
+		 * @param	name	Name of the stat.
+		 * @param	value	Starting value.
+		 * @param	maxValue	Starting maxValue.
+		 * @param	onFull	Function to execute when value equals maxValue.
+		 * @param	onEmpty	Function to execute when value equals 0.
+		 */
+		public function Stat(name:String = "", value:Number = 0, maxValue:Number = 0, onFull:Function = null, onEmpty:Function = null) 
 		{
 			modifiers = new Dictionary();
 			
 			_name = name;
-			_value = startingValue;
+			_value = value;
 			_maxValue = maxValue;
+			_onEmpty = onEmpty;
+			_onFull = onFull;
 		}
 		
 		/**
 		 * Gets all modifiers and adds their value.
 		 * @return The total value of all modifiers.
 		 */
-		private function getModifierValue():Number
+		protected function getModifierValue(type:int):Number
 		{
 			var result:Number = 0;
 			var v:Vector.<Modifier> = getModifiers();
 			
 			for each (var modifier:Modifier in v) {
-				result += modifier.value;
+				if (modifier.type == type) { result += modifier.value; }
 			}
 			
 			return result;
@@ -59,15 +74,6 @@ package statsystem
 		public function addModifier(modifier:Modifier):void
 		{
 			modifiers[modifier.name] = modifier;
-			
-			// The purpose of the following check is to keep the current value
-			// less than the max value in the case that a modifier negatively affects the stat.
-			// This will only occur if there is a max value.
-			if (_maxValue != -1) {
-				if (_value > _maxValue + modifier.value) {
-					_value = _maxValue + modifier.value;
-				}
-			}
 		}
 		
 		/**
@@ -83,28 +89,73 @@ package statsystem
 		}
 		
 		/**
-		 * Adds the given value to the base value of the stat.
-		 * @param	value	The value to add.
+		 * Adds the given value to the value of the stat.
+		 * @param	value	Use positive to add value and negative to subtract value.
 		 */
-		public function add(value:Number):void 
-		{ 
-			if (_maxValue == -1) { // if there no max value...
-				_value += value; // just add the new value
-			} else { // if there is a max value...
-				if (_value + value <= _maxValue + getModifierValue()) { // check that the new value is within the max value + modifier(s)
-					_value += value; // then add the new value
+		public function addValue(value:Number):void 
+		{
+			if (_value + value > _value) {             // if positive
+				if (_value != _maxValue) {             // if value does not already equal maxValue
+					if (_value + value >= _maxValue) { // if new value is greater than maxValue, set to maxValue
+						_value = maxValue;
+						if (_onFull != null) _onFull();
+					} else {
+						_value += value;               // else, just add the value
+					}
+				}
+			} else {                                   // if negative
+				if (_value != 0) {                     // if value does not already equal 0
+					if (_value + value <= 0) {         // if new value is less than 0, set to 0.
+						_value = 0;
+						if (_onEmpty != null) _onEmpty();
+					} else {
+						_value += value;               // else, just add the value
+					}
 				}
 			}
 		}
 		
 		/**
-		 * Removes the given value from the base value of the stat.
-		 * @param	value	The value to remove.
+		 * Adds the given value to the maxValue of the stat.
+		 * @param	value	Use positive to add value and negative to subtract value.
 		 */
-		public function remove(value:Number):void
+		public function addMaxValue(value:Number):void
 		{
-			if (_value - value >= 0) {
-				_value -= value;
+			_maxValue += value;
+			if (_value > _maxValue) { _value = _maxValue; } // if current value exceed the new maxValue, set to new maxValue
+		}
+		
+		/**
+		 * Saves the stat to a string.
+		 */
+		public function saveToString():String 
+		{ 
+			var str:String = _name + "," + _value + "," + _maxValue;
+			
+			for each (var modifier:Modifier in modifiers) {
+				str += ";" + modifier.saveToString();
+			}
+			
+			return str;
+		}
+		
+		/**
+		 * Loads the stat from a string.
+		 */
+		public function loadFromString(string:String):void
+		{
+			// split initial string
+			var values:Array = string.split(";");
+			// split and use first element as stat values
+			var stat:Array = values[0].split(",");
+			_name = stat[0];
+			_value = stat[1];
+			_maxValue = stat[2];
+			// then for each of the following elements as modifiers
+			for (var i:uint = 1; i < values.length; i++) {
+				var modifier:Modifier = new Modifier();
+				modifier.loadFromString(values[i]);
+				addModifier(modifier);
 			}
 		}
 		
@@ -113,22 +164,37 @@ package statsystem
 		 */
 		public function get name():String { return _name; }
 		/**
-		 * Returns the base (or actual) value of the stat.
+		 * Returns the base value of the stat.
 		 */
-		public function get baseValue():Number { return _value; }
+		public function get valueTotal():Number { return _value + getModifierValue(VALUE); }
 		/**
-		 * Returns the total value of all modifiers.
+		 * Returns the base value of the stat without modifiers.
 		 */
-		public function get modifierValue():Number { return getModifierValue(); }
+		public function get value():Number { return _value; }
 		/**
-		 * If there is not a max value, returns the actual value plus the total modifier value.
-		 * If there is a max value, returns the max value plus the total modifier value.
+		 * Returns the total modifier value affecting value.
 		 */
-		public function get totalValue():Number { return (_maxValue == -1) ? _value + getModifierValue() : _maxValue + getModifierValue(); }
+		public function get valueModifiers():Number { return getModifierValue(VALUE); }
 		/**
-		 * Returns the max value of the stat or -1 if there is none.
+		 * Returns the maxValue of the stat.
+		 */
+		public function get maxValueTotal():Number { return _maxValue + getModifierValue(MAXVALUE); }
+		/**
+		 * Returns the base maxValue without modifiers.
 		 */
 		public function get maxValue():Number { return _maxValue; }
+		/**
+		 * Returns the total modifier value affecting maxValue.
+		 */
+		public function get maxValueModifiers():Number { return getModifierValue(MAXVALUE); }
+		/**
+		 * Sets the function to execute when value equals maxValue.
+		 */
+		public function set onFull(funct:Function):void {  _onFull = funct; }
+		/**
+		 * Sets the function to execute when value equals 0.
+		 */
+		public function set onEmpty(funct:Function):void {  _onEmpty = funct; }
 	}
 
 }

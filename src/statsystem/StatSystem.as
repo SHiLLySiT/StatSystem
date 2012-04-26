@@ -1,7 +1,6 @@
 package statsystem 
 {
 	import flash.utils.Dictionary;
-	import statsystem.stats.*;
 	
 	/**
 	 * Holds a collection of stats.
@@ -10,6 +9,7 @@ package statsystem
 	public class StatSystem 
 	{
 		private var stats:Dictionary;
+		private var _length:int;
 		
 		/**
 		 * Holds a collection of stats.
@@ -17,6 +17,7 @@ package statsystem
 		public function StatSystem() 
 		{
 			stats = new Dictionary();
+			_length = 0;
 		}
 		
 		/**
@@ -26,6 +27,7 @@ package statsystem
 		public function addStat(stat:Stat):void
 		{
 			stats[stat.name] = stat;
+			_length++;
 		}
 		
 		/**
@@ -37,6 +39,7 @@ package statsystem
 		{
 			var stat:Stat = stats[name];
 			delete stats[name];
+			_length--;
 			return stat;
 		}
 		
@@ -65,6 +68,41 @@ package statsystem
 			return result;
 		}
 		
+		/**
+		 * Saves the statsystem to a string.
+		 */
+		public function saveToString():String 
+		{
+			var str:String = "";
+			
+			var i:uint = 1;
+			for each (var stat:Stat in stats) {
+				str += stat.saveToString();
+				if (i != _length) { str += "\n"; }
+				i++;
+			}
+			
+			return str;
+		}
+		
+		/**
+		 * Loads the statsystem from a string.
+		 */
+		public function loadFromString(string:String):void
+		{
+			// split initial string
+			var values:Array = string.split("\n");
+			for (var i:uint = 0; i < values.length; i++) {
+				var stat:Stat = new Stat();
+				stat.loadFromString(values[i]);
+				addStat(stat);
+			}
+		}
+		
+		/**
+		 * The number of stats in the stat system.
+		 */
+		public function get length():int { return _length; }
 	}
 
 }
