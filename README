@@ -1,1 +1,13 @@
-A simple stat handling system for games.
+A simple stat handling system for flash games. 
+
+For more information visit: http://pixelsquidgames.net/projects/statsystem/statsystem.html
+
+Changelog: 2.0 (April 26th, 2012)
+
+NOTE: This is not backwards compatible, hence major version bump.
+
+-condensed MeterStat and LevelStat into one class
+-removed experience methods
+-added onFull and onEmpty functions which execute when a stat's value equals maxValue or 0 respectively
+-modifier now has a type variable which identifies the value it affects
+-added saving and loading of the stat system, stats, and modifiers
