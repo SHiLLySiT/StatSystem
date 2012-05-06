@@ -5,6 +5,10 @@ For documentation visit: http://pixelsquidgames.net/projects/statsystem/document
 
 Changelog:
 
+Version 2.0.1 (May 6th, 2012) 
+Updated documentation.
+Setting a stat to a maxValue of zero is now interpreted as no limit.
+
 Version 2.0 (April 26th, 2012)
 
 NOTE: This is not backwards compatible, hence major version bump.

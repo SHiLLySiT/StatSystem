@@ -16,7 +16,7 @@ package
 		public function Main()
 		{
 			super(560, 400);
-			FP.console.enable();
+			//FP.console.enable();
 		}
 
 		override public function init():void
