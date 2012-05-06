@@ -27,7 +27,7 @@ package statsystem
 		 * 
 		 * @param	name	Name of the stat.
 		 * @param	value	Starting value.
-		 * @param	maxValue	Starting maxValue.
+		 * @param	maxValue	Starting maxValue, 0 for no limit.
 		 * @param	onFull	Function to execute when value equals maxValue.
 		 * @param	onEmpty	Function to execute when value equals 0.
 		 */
@@ -101,13 +101,17 @@ package statsystem
 		public function addValue(value:Number):void 
 		{
 			if (_value + value > _value) {             // if positive
-				if (_value != _maxValue) {             // if value does not already equal maxValue
-					if (_value + value >= _maxValue) { // if new value is greater than maxValue, set to maxValue
-						_value = maxValue;
-						if (_onFull != null) _onFull();
-					} else {
-						_value += value;               // else, just add the value
+				if (_maxValue > 0) {                       // if max value has a limit
+					if (_value != _maxValue) {             // if value does not already equal maxValue
+						if (_value + value >= _maxValue) { // if new value is greater than maxValue, set to maxValue
+							_value = maxValue;
+							if (_onFull != null) _onFull();
+						} else {
+							_value += value;               // else, just add the value
+						}
 					}
+				} else {                                  // if maxValue is 0 (or in otherwords, has no limit
+					_value += value;
 				}
 			} else {                                   // if negative
 				if (_value != 0) {                     // if value does not already equal 0
