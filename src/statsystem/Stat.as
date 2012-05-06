@@ -7,7 +7,13 @@ package statsystem
 	 */
 	public class Stat 
 	{
+		/**
+		 * Affects the value of the stat.
+		 */
 		public static const VALUE:int = 0;
+		/**
+		 * Affects the maxValue of the stat.
+		 */
 		public static const MAXVALUE:int = 1;
 		
 		private var modifiers:Dictionary;
@@ -164,7 +170,7 @@ package statsystem
 		 */
 		public function get name():String { return _name; }
 		/**
-		 * Returns the base value of the stat.
+		 * Returns the total value of the stat.
 		 */
 		public function get valueTotal():Number { return _value + getModifierValue(VALUE); }
 		/**
@@ -176,7 +182,7 @@ package statsystem
 		 */
 		public function get valueModifiers():Number { return getModifierValue(VALUE); }
 		/**
-		 * Returns the maxValue of the stat.
+		 * Returns the total maxValue of the stat.
 		 */
 		public function get maxValueTotal():Number { return _maxValue + getModifierValue(MAXVALUE); }
 		/**
