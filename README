@@ -4,23 +4,25 @@ For more information visit: http://pixelsquidgames.net/projects/statsystem/stats
 For documentation visit: http://pixelsquidgames.net/projects/statsystem/documentation/index.html
 
 Changelog:
-
+Version 2.0.2 (May 13th, 2012) 
+* Updated documentation.
+* Added setValue and setMaxValue methods
+	
 Version 2.0.1 (May 6th, 2012) 
-Updated documentation.
-Setting a stat to a maxValue of zero is now interpreted as no limit.
+* Updated documentation.
+* Setting a stat to a maxValue of zero is now interpreted as no limit.
 
 Version 2.0 (April 26th, 2012)
-
 NOTE: This is not backwards compatible, hence major version bump.
 
--condensed MeterStat and LevelStat into one class
--removed experience methods
--added onFull and onEmpty functions which execute when a stat's value equals maxValue or 0 respectively
--modifier now has a type variable which identifies the value it affects
--added saving and loading of the stat system, stats, and modifiers
+* condensed MeterStat and LevelStat into one class
+* removed experience methods
+* added onFull and onEmpty functions which execute when a stat's value equals maxValue or 0 respectively
+* modifier now has a type variable which identifies the value it affects
+* added saving and loading of the stat system, stats, and modifiers
 
 Version 1.1 (January 24, 2014)
--Split stat class into two separate classes
--Add experience management for stats
+* Split stat class into two separate classes
+* Add experience management for stats
 
 Version 1.0 (Inital Release)
