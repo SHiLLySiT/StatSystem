@@ -95,6 +95,33 @@ package statsystem
 		}
 		
 		/**
+		 * Sets the value of the stat.
+		 * @param	value The new value.
+		 */
+		public function setValue(value:Number):void
+		{
+			if (value >= _maxValue) { // if greater than max
+				_value = _maxValue;
+				_onFull();
+			} else if (value <= 0) { // if less than zero
+				_value = 0;
+				_onEmpty();
+			} else {
+				_value = value; // else set to value
+			}
+		}
+		
+		/**
+		 * Sets the maxValue of the stat. Does not allow a negative value.
+		 * @param	value The new value.
+		 */
+		public function setMaxValue(value:Number):void
+		{
+			_maxValue = (value > 0) ? value : 0;
+			_value = (_value > _maxValue) ? _maxValue : _value; // if value is larger than the new max value, scale it
+		}
+		
+		/**
 		 * Adds the given value to the value of the stat.
 		 * @param	value	Use positive to add value and negative to subtract value.
 		 */
