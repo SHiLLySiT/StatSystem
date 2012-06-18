@@ -102,10 +102,10 @@ package statsystem
 		{
 			if (value >= _maxValue) { // if greater than max
 				_value = _maxValue;
-				_onFull();
+				if (_onFull != null) onFull();
 			} else if (value <= 0) { // if less than zero
 				_value = 0;
-				_onEmpty();
+				if (_onEmpty != null) _onEmpty();
 			} else {
 				_value = value; // else set to value
 			}
