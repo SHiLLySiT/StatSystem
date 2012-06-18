@@ -3,17 +3,22 @@ A simple stat handling system for flash games.
 For more information visit: http://pixelsquidgames.net/projects/statsystem/statsystem.html
 For documentation visit: http://pixelsquidgames.net/projects/statsystem/documentation/index.html
 
-Changelog:
+Changelog:	
+Version 2.1.0 (June 18th, 2012) 
+* Added null check for the onEmpty and onFull functions when a stat is set to a particular value
+* Added inventory management features, item base class, and optional database management class
+
+
 Version 2.0.2 (May 13th, 2012) 
-* Updated documentation.
+* Updated documentation
 * Added setValue and setMaxValue methods
 	
 Version 2.0.1 (May 6th, 2012) 
-* Updated documentation.
-* Setting a stat to a maxValue of zero is now interpreted as no limit.
+* Updated documentation
+* Setting a stat to a maxValue of zero is now interpreted as no limit
 
 Version 2.0 (April 26th, 2012)
-NOTE: This is not backwards compatible, hence major version bump.
+NOTE: This is not backwards compatible, hence major version bump
 
 * condensed MeterStat and LevelStat into one class
 * removed experience methods
