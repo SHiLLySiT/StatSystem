@@ -1,5 +1,6 @@
 package statsystem.inventory  
 {
+	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import net.flashpunk.FP;
 	import statsystem.Stat;
@@ -19,7 +20,8 @@ package statsystem.inventory
 		{
 			_database = new Dictionary();
 			
-			var xml:XML = FP.getXML(database);
+			var bytes:ByteArray = new database;
+			var xml:XML = XML(bytes.readUTFBytes(bytes.length));
 			var dataList:XMLList;
 			var dataElement:XML;
 			
