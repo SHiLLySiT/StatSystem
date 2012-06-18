@@ -2,7 +2,6 @@ package statsystem.inventory
 {
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
-	import net.flashpunk.FP;
 	import statsystem.Stat;
 	/**
 	 * Reads a database of items from an XML file into memory, providing easy reference to items. This class is OPTIONAL and not required to use the inventory features.
