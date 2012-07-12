@@ -163,6 +163,26 @@ package statsystem
 		}
 		
 		/**
+		 * Sets the value to the max value (if there is one) and calls the onFull function.
+		 */
+		public function fill():void
+		{
+			if (_maxValue > 0) { 
+				_value = _maxValue;
+				if (_onFull != null) _onFull();
+			}
+		}
+		
+		/**
+		 * Sets the value to zero and calls the onEmpty function.
+		 */
+		public function empty():void
+		{
+			_value = 0;
+			if (_onEmpty != null) _onEmpty();
+		}
+		
+		/**
 		 * Saves the stat to a string.
 		 */
 		public function saveToString():String 
