@@ -4,10 +4,13 @@ For more information visit: http://pixelsquidgames.net/projects/statsystem/stats
 For documentation visit: http://pixelsquidgames.net/projects/statsystem/documentation/index.html
 
 Changelog:	
+Version 2.1.1 (July 11th, 2012) 
+* Fixed setValue() not checking if a max value was set for the stat. If there is one, the new value is clamped within that range. If not, the new value is unchanged.
+* Added empty() and fill() function to the Stat class. Empty sets the stat value to 0 and calls the onEmpty function and fill sets the value to the max value (if there is one) and calls the onFull function.
+	
 Version 2.1.0 (June 18th, 2012) 
 * Added null check for the onEmpty and onFull functions when a stat is set to a particular value
 * Added inventory management features, item base class, and optional database management class
-
 
 Version 2.0.2 (May 13th, 2012) 
 * Updated documentation
