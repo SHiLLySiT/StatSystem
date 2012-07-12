@@ -100,7 +100,7 @@ package statsystem
 		 */
 		public function setValue(value:Number):void
 		{
-			if (value >= _maxValue) { // if greater than max
+			if (value >= _maxValue && _maxValue > 0) { // if greater than max or no cap
 				_value = _maxValue;
 				if (_onFull != null) _onFull();
 			} else if (value <= 0) { // if less than zero
