@@ -10,20 +10,22 @@ package statsystem.inventory
 	{
 		private var _name:String;
 		private var _type:String;
+		private var _stack:int;
 		private var _stats:StatSystem;
 		
 		/**
 		 * Creates a new item.
 		 * @param	name	The name of the new item
+		 * @param	type	The type of item
 		 * @param	stack	The max stackable amount of the item
 		 */
 		public function Item(name:String, type:String = "", stack:int = -1) 
 		{
 			_name = name;
 			_type = type;
+			_stack = stack;
 			
 			_stats = new StatSystem();
-			_stats.addStat(new Stat("stack", stack));
 		}
 		
 		/**
@@ -33,7 +35,7 @@ package statsystem.inventory
 		/**
 		 * Gets the max stack of this item.
 		 */
-		public function get stack():int { return _stats.getStat("stack").value; }
+		public function get stack():int { return _stack; }
 		/**
 		 * Gets the name of this item.
 		 */
