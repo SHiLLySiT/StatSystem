@@ -23,7 +23,7 @@ package statsystem.inventory
 		/**
 		 * Adds the specified amount of the item to the stack, but will not exceed the max stack of the item. The excess amount (if any) is returned.
 		 * @param	amount	The amount to add
-		 * @return	The excess amount e.g., the amount of the item that did not fit in this stack.
+		 * @return	The excess amount i.e., the amount of the item that did not fit in this stack.
 		 */
 		public function add(amount:uint):int
 		{
@@ -49,7 +49,7 @@ package statsystem.inventory
 		/**
 		 * Removes the specified amount from the stack. If the amount to be removed is greater than the actual amount, that number is returned.
 		 * @param	amount	The amount to remove
-		 * @return	The remaining amount to be removed e.g., amount - actual amount
+		 * @return	The remaining amount to be removed i.e., amount - actual amount
 		 */
 		public function remove(amount:uint):int
 		{

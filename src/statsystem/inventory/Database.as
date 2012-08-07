@@ -26,7 +26,7 @@ package statsystem.inventory
 			
 			dataList = xml.item;
 			for each (dataElement in dataList) {
-				var item:Item = new Item(dataElement.@name, dataElement.@stack);
+				var item:Item = new Item(dataElement.@name, dataElement.@type, dataElement.@stack);
 				
 				for each (var stat:XML in dataElement.stat) {
 					item.stats.addStat(new Stat(stat.@name, stat.@value, stat.@maxValue));
@@ -39,7 +39,7 @@ package statsystem.inventory
 		/**
 		 * Returns the item with the given name, if any.
 		 * @param	name	The name of the item to get
-		 * @return	The item object with the specified name
+		 * @return	The item object with the specified name or null if none found
 		 */
 		public function getItem(name:String):Item
 		{

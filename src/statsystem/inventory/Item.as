@@ -1,7 +1,6 @@
 package statsystem.inventory  
 {
-	import statsystem.Stat;
-	import statsystem.StatSystem;
+	import statsystem.*;
 	/**
 	 * The base item class. Extend this for your own projects.
 	 * @author alex larioza
