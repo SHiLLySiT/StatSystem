@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<itemDB>
+	<item name="Iron Sword" type="weapon" stack="1">
+		<stat name="damage" value="3"/>
+		</item>
+		
+	<item name="Leather Shield" type="armor" stack="1">
+		<stat name="armor" value="2"/>
+		</item>
+		
+	<item name="Iron Cuirass" type="armor" stack="1">
+		<stat name="armor" value="5"/>
+		</item>
+		
+	<item name="Ring of Accuracy" type="accessory" stack="1">
+		<stat name="accuracy" value="3"/>
+		<stat name="health" value="0"/>
+		</item>
+		
+	<item name="Amulet of Health" type="accessory" stack="1">
+		<stat name="health" value="10"/>
+		<stat name="accuracy" value="0"/>
+		</item>
+		
+	<item name="Weak Health Potion" type="potion" stack="4">
+		<stat name="health" value="10"/>
+		</item>
+		
+	<item name="Strong Health Potion" type="potion" stack="4">
+		<stat name="health" value="25"/>
+		</item>
+</itemDB>

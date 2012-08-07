@@ -2,11 +2,16 @@ package demo
 {
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
+	import net.flashpunk.graphics.Text;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
 	import net.flashpunk.World;
 	import flash.utils.getTimer;
 	import statsystem.*;
+	import statsystem.inventory.Database;
+	import statsystem.inventory.Inventory;
+	import statsystem.inventory.Item;
+	import statsystem.inventory.ItemStack;
 
 	/**
 	 * ...
@@ -14,7 +19,11 @@ package demo
 	 */
 	public class GameWorld extends World 
 	{
-		public var player:Player;
+		[Embed(source = "database.xml", mimeType = "application/octet-stream")]
+		private static const RAW_DATABASE:Class;
+		public static const DATABASE:Database = new Database(RAW_DATABASE);
+		public static var player:Player;
+		public static var hud:Hud;
 		
 		public function GameWorld()
 		{
@@ -24,16 +33,9 @@ package demo
 		override public function begin():void
 		{
 			super.begin();
-			
-			add(player = new Player(FP.screen.width / 2, FP.screen.height / 2));
-			
-			add(new Hud());
-			
-			add(new Enemy(32 + FP.rand(FP.screen.width - 64), 32 + FP.rand(FP.screen.height - 64)));
-			add(new Enemy(32 + FP.rand(FP.screen.width - 64), 32 + FP.rand(FP.screen.height - 64)));
-			add(new Enemy(32 + FP.rand(FP.screen.width - 64), 32 + FP.rand(FP.screen.height - 64)));
-			add(new Enemy(32 + FP.rand(FP.screen.width - 64), 32 + FP.rand(FP.screen.height - 64)));
-			add(new Enemy(32 + FP.rand(FP.screen.width - 64), 32 + FP.rand(FP.screen.height - 64)));
+			add(new Level());
+			add(hud = new Hud());
+			hud.addMessage("Welcome to the StatSystem Demo!");
 		}
 		
 		override public function update():void 
